@@ -18,6 +18,13 @@ x-postgres-health: &postgres-health
   retries: 10
   start_period: 10s
 
+x-helper-health: &helper-health
+  test: ["CMD-SHELL", "python3 -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:9000/ping')\""]
+  interval: 5s
+  timeout: 3s
+  retries: 5
+  start_period: 5s
+
 services:
   postgres-primary:
     image: postgres:16
@@ -105,17 +112,63 @@ services:
       <<: *postgres-health
       start_period: 60s
 
+  # Helpers distribuídos participantes de Lamport, Ricart-Agrawala e 2PC
+  helper-node-1:
+    build:
+      context: .
+      dockerfile: ./server/Dockerfile.helper
+    container_name: mc714-helper-1
+    environment:
+      NODE_ID: helper-node-1
+      PEERS: helper-node-2,helper-node-3,api
+      HELPER_PORT: 9000
+    networks:
+      - mc714-net
+    healthcheck:
+      <<: *helper-health
+
+  helper-node-2:
+    build:
+      context: .
+      dockerfile: ./server/Dockerfile.helper
+    container_name: mc714-helper-2
+    environment:
+      NODE_ID: helper-node-2
+      PEERS: helper-node-1,helper-node-3,api
+      HELPER_PORT: 9000
+    networks:
+      - mc714-net
+    healthcheck:
+      <<: *helper-health
+
+  helper-node-3:
+    build:
+      context: .
+      dockerfile: ./server/Dockerfile.helper
+    container_name: mc714-helper-3
+    environment:
+      NODE_ID: helper-node-3
+      PEERS: helper-node-1,helper-node-2,api
+      HELPER_PORT: 9000
+    networks:
+      - mc714-net
+    healthcheck:
+      <<: *helper-health
+
   api:
     build:
       context: ./server
     container_name: mc714-api
     environment:
+      NODE_ID: api
       DB_PRIMARY: postgres-primary
       DB_REPLICAS: postgres-replica-1,postgres-replica-2,postgres-replica-3
       DB_PORT: "5432"
       DB_USER: tickets
       DB_PASSWORD: tickets_dev
       DB_NAME: tickets
+      HELPER_NODES: helper-node-1,helper-node-2,helper-node-3
+      HELPER_PORT: "9000"
     ports:
       - "8000:8000"
     networks:
@@ -128,6 +181,12 @@ services:
       postgres-replica-2:
         condition: service_healthy
       postgres-replica-3:
+        condition: service_healthy
+      helper-node-1:
+        condition: service_healthy
+      helper-node-2:
+        condition: service_healthy
+      helper-node-3:
         condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')\""]
