@@ -1,0 +1,33 @@
+flowchart TB
+  subgraph lamport["Lamport"]
+    L1["POST /events/ordered"]
+    L2["Incrementa relogio"]
+    L3["GET /events/ordered"]
+    L1 --> L2 --> L3
+  end
+
+  subgraph mutex["Ricart-Agrawala"]
+    M1["POST /tickets/buy-mutex"]
+    M2["REQUEST aos helpers"]
+    M3["REPLY + secao critica"]
+    M1 --> M2 --> M3
+  end
+
+  subgraph twopc["2PC"]
+    T1["POST /tickets/buy-2pc"]
+    T2["Fase PREPARE"]
+    T3{"Todos SIM?"}
+    T4["COMMIT no primary"]
+    T5["ABORT"]
+    T1 --> T2 --> T3
+    T3 -->|sim| T4
+    T3 -->|nao| T5
+  end
+
+  subgraph heartbeat["Heartbeat"]
+    H1["GET /cluster/health"]
+    H2["stop helper-node-1"]
+    H3["is_alive false"]
+    H4["start e recuperacao"]
+    H1 --> H2 --> H3 --> H4
+  end

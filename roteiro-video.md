@@ -9,7 +9,7 @@
 
 | Bloco | Tempo Estimado | Foco da Apresentação |
 |---|---|---|
-| **Bloco 1: Introdução & Arquitetura** | ~0:45 | Apresentação da dupla, propósito do sistema (ingressos distribuídos) e arquitetura (`PROJECT_PLAN.md`). |
+| **Bloco 1: Introdução & Arquitetura** | ~0:45 | Apresentação da dupla, propósito do sistema (ingressos distribuídos) e arquitetura ([`docs/diagrama-trabalho-mc714.md`](docs/diagrama-trabalho-mc714.md)). |
 | **Bloco 2: Subida do Cluster & Health** | ~0:45 | Inicialização com Docker Compose e verificação de nós de banco e helpers. |
 | **Bloco 3: Algoritmos em Execução Normal** | ~1:30 | Ordenação causal por Lamport, Exclusão Mútua (Ricart-Agrawala) e Two-Phase Commit (2PC). |
 | **Bloco 4: Injeção de Falha & Recuperação** | ~1:00 | Simulação de crash de nó (`helper-node-1`), detecção via Heartbeat e recuperação pós-restart. |
@@ -21,7 +21,7 @@
 
 ### Bloco 1: Apresentação da Arquitetura (~0:45)
 - **O que falar:** Nome e RA da dupla. Explicar brevemente que o sistema consiste em uma API FastAPI multithread coordenando um cluster PostgreSQL (Primary + 3 Réplicas com streaming replication) e 3 nós helpers autônomos para algoritmos distribuídos.
-- **O que mostrar:** Abrir brevemente o diagrama do `PROJECT_PLAN.md`.
+- **O que mostrar:** Abrir [`docs/visualizar-diagramas.html`](docs/visualizar-diagramas.html) no navegador ou o PNG [`docs/images/slide-one-pager.png`](docs/images/slide-one-pager.png) (roteiro + arquitetura + endpoints, 16:9). Índice completo: [`docs/diagrama-trabalho-mc714.md`](docs/diagrama-trabalho-mc714.md).
 
 ---
 

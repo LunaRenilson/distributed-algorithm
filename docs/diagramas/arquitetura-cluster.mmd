@@ -1,0 +1,30 @@
+flowchart TB
+  subgraph clients["Clientes"]
+    CURL["curl / pytest / benchmark"]
+  end
+
+  subgraph api_layer["API FastAPI :8000"]
+    API["Coordenador multithread"]
+  end
+
+  subgraph db_cluster["PostgreSQL"]
+    PRI[("primary")]
+    R1[("replica-1")]
+    R2[("replica-2")]
+    R3[("replica-3")]
+    PRI -->|"streaming replication"| R1
+    PRI --> R2
+    PRI --> R3
+  end
+
+  subgraph helpers["Helpers :9000"]
+    H1["helper-node-1"]
+    H2["helper-node-2"]
+    H3["helper-node-3"]
+  end
+
+  CURL --> API
+  API --> PRI
+  API <-->|"Lamport Mutex 2PC heartbeat"| H1
+  API <--> H2
+  API <--> H3
