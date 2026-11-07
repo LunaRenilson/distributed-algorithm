@@ -25,7 +25,7 @@ echo "API está pronta e respondendo!"
 
 # 3. Executa testes unitários e de integração
 echo "[3/4] Executando suíte de testes automatizados..."
-python3 -m pytest tests/unit tests/integration -v
+PYTHONPATH="${PROJECT_ROOT}/server" python3 -m pytest tests/unit tests/integration -v
 
 # 4. Executa benchmark de desempenho com 1, 5, 10 e 20 threads
 echo "[4/4] Executando benchmark experimental de concorrência e latência..."

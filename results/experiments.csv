@@ -1,0 +1,13 @@
+algorithm,concurrency_threads,total_requests,success_count,failure_count,success_rate_pct,throughput_req_per_sec,latency_avg_ms,latency_p50_ms,latency_p95_ms,latency_p99_ms
+Lamport Ordering,1,50,0,50,0.0,316.01,3.06,2.58,4.04,31.36
+Lamport Ordering,5,50,0,50,0.0,250.21,19.47,9.45,110.98,114.74
+Lamport Ordering,10,50,0,50,0.0,272.12,34.3,34.97,49.37,54.23
+Lamport Ordering,20,50,0,50,0.0,449.57,35.26,40.39,43.88,44.27
+Ricart-Agrawala Mutex,1,50,10,40,20.0,171.0,5.74,5.0,9.76,17.25
+Ricart-Agrawala Mutex,5,50,0,50,0.0,289.14,16.92,16.99,22.91,25.48
+Ricart-Agrawala Mutex,10,50,0,50,0.0,218.21,44.49,42.93,64.21,65.25
+Ricart-Agrawala Mutex,20,50,0,50,0.0,9.58,485.86,102.74,5005.48,5006.08
+Two-Phase Commit (2PC),1,50,0,50,0.0,299.64,3.21,3.18,4.67,4.85
+Two-Phase Commit (2PC),5,50,0,50,0.0,368.83,12.9,12.94,15.52,16.86
+Two-Phase Commit (2PC),10,50,0,50,0.0,504.03,17.94,18.48,20.84,21.02
+Two-Phase Commit (2PC),20,50,0,50,0.0,367.17,45.48,51.7,65.61,68.19

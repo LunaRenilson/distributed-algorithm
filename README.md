@@ -24,31 +24,31 @@ Você pode testar cada algoritmo de duas formas: **via testes automatizados** (r
 
 ### 1. Testes Automatizados Isolados (`pytest`)
 
-Execute a partir da raiz do repositório:
+Execute a partir da pasta `trabalho2`:
 
 - **Relógio de Lamport (ordenação causal):**
   ```bash
-  PYTHONPATH=server python3 -m pytest tests/unit/test_lamport.py -v
+  python3 -m pytest tests/unit/test_lamport.py -v
   ```
 - **Exclusão Mútua (Ricart-Agrawala):**
   ```bash
-  PYTHONPATH=server python3 -m pytest tests/unit/test_ricart_agrawala.py -v
+  python3 -m pytest tests/unit/test_ricart_agrawala.py -v
   ```
 - **Two-Phase Commit (2PC):**
   ```bash
-  PYTHONPATH=server python3 -m pytest tests/unit/test_2pc.py -v
+  python3 -m pytest tests/unit/test_2pc.py -v
   ```
 - **Detector de Falhas (Heartbeat):**
   ```bash
-  PYTHONPATH=server python3 -m pytest tests/unit/test_heartbeat.py -v
+  python3 -m pytest tests/unit/test_heartbeat.py -v
   ```
 - **Concorrência e Integração Multithread:**
   ```bash
-  PYTHONPATH=server python3 -m pytest tests/integration/test_distributed_api.py -v
+  python3 -m pytest tests/integration/test_distributed_api.py -v
   ```
 - **Todos os testes de uma vez:**
   ```bash
-  PYTHONPATH=server python3 -m pytest tests/unit tests/integration -v
+  python3 -m pytest tests/unit tests/integration -v
   ```
 
 ---
