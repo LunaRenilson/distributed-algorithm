@@ -32,7 +32,7 @@ def send_request(url: str, payload: dict | None = None, method: str = "POST", ti
         with urllib.request.urlopen(req, timeout=timeout) as resp:
             resp.read()
             duration_ms = (time.perf_counter() - start_time) * 1000
-            return (resp.status == 200, duration_ms)
+            return (200 <= resp.status < 300, duration_ms)
     except Exception:
         duration_ms = (time.perf_counter() - start_time) * 1000
         return (False, duration_ms)
@@ -123,8 +123,18 @@ def main():
     parser.add_argument("--reqs", type=int, default=50, help="Requisições por nível de concorrência")
     args = parser.parse_args()
 
-    os.makedirs(os.path.dirname(args.output), exist_ok=True)
+    os.makedirs(os.path.dirname(args.output) or ".", exist_ok=True)
     threads = [1, 5, 10, 20]
+
+    ok, _ = send_request(f"{args.host}/health", method="GET")
+    if not ok:
+        print(f"[ERRO] API indisponível em {args.host}/health — suba o cluster antes do benchmark.", file=sys.stderr)
+        sys.exit(2)
+
+    # Aquecimento: uma requisição por endpoint
+    send_request(f"{args.host}/events/ordered", {"event_name": "warmup"}, method="POST")
+    send_request(f"{args.host}/tickets/buy-mutex", {"user_id": 1, "event_id": 1, "quantity": 1})
+    send_request(f"{args.host}/tickets/buy-2pc", {"user_id": 1, "event_id": 1, "quantity": 1})
 
     all_results = []
 

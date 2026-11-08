@@ -71,33 +71,32 @@
   <text x="640" y="352" text-anchor="middle" class="h2">API FastAPI :8000</text>
   <text x="640" y="372" text-anchor="middle" class="body">Lamport, Ricart-Agrawala, 2PC, Heartbeat</text>
 
-  <path d="M500 384 L280 430" class="ln"/>
-  <text x="360" y="410" class="muted">SQL</text>
-  <path d="M780 384 L940 430" class="ln-d"/>
-  <text x="842" y="408" class="muted">HTTP :9000</text>
+  <path d="M520 384 L280 418" class="ln"/>
+  <text x="368" y="398" class="muted">SQL</text>
+  <path d="M760 384 L940 418" class="ln-d"/>
+  <text x="848" y="398" class="muted">HTTP :9000</text>
 
-  <ellipse cx="220" cy="490" rx="100" ry="44" class="db"/>
-  <text x="220" y="486" text-anchor="middle" class="h2">primary</text>
-  <text x="220" y="504" text-anchor="middle" class="body">log 2PC</text>
+  <ellipse cx="200" cy="468" rx="96" ry="40" class="db"/>
+  <text x="200" y="464" text-anchor="middle" class="h2">primary</text>
+  <text x="200" y="480" text-anchor="middle" class="body">log 2PC</text>
 
-  <ellipse cx="430" cy="455" rx="82" ry="34" class="db"/>
-  <text x="430" y="460" text-anchor="middle" class="body">replica-1</text>
-  <ellipse cx="430" cy="525" rx="82" ry="34" class="db"/>
-  <text x="430" y="530" text-anchor="middle" class="body">replica-2</text>
-  <path d="M320 478 L348 455" class="ln"/>
-  <path d="M320 502 L348 525" class="ln"/>
-  <text x="318" y="448" class="muted">streaming</text>
+  <ellipse cx="400" cy="428" rx="78" ry="30" class="db"/>
+  <text x="400" y="433" text-anchor="middle" class="body">replica-1</text>
+  <ellipse cx="400" cy="488" rx="78" ry="30" class="db"/>
+  <text x="400" y="493" text-anchor="middle" class="body">replica-2</text>
+  <ellipse cx="400" cy="548" rx="78" ry="30" class="db"/>
+  <text x="400" y="553" text-anchor="middle" class="body">replica-3</text>
+  <path d="M296 448 L322 428" class="ln"/>
+  <path d="M296 468 L322 488" class="ln"/>
+  <path d="M296 488 L322 548" class="ln"/>
+  <text x="268" y="412" class="muted">streaming</text>
 
-  <ellipse cx="430" cy="595" rx="82" ry="34" class="db"/>
-  <text x="430" y="600" text-anchor="middle" class="body">replica-3</text>
-  <path d="M320 515 Q360 595 348 595" class="ln"/>
-
-  <rect x="900" y="440" width="110" height="42" rx="6" class="helper"/>
-  <text x="955" y="466" text-anchor="middle" class="body">helper-1</text>
-  <rect x="1040" y="440" width="110" height="42" rx="6" class="helper"/>
-  <text x="1095" y="466" text-anchor="middle" class="body">helper-2</text>
-  <rect x="970" y="510" width="110" height="42" rx="6" class="helper"/>
-  <text x="1025" y="536" text-anchor="middle" class="body">helper-3</text>
+  <rect x="900" y="428" width="100" height="40" rx="6" class="helper"/>
+  <text x="950" y="453" text-anchor="middle" class="body">helper-1</text>
+  <rect x="1018" y="428" width="100" height="40" rx="6" class="helper"/>
+  <text x="1068" y="453" text-anchor="middle" class="body">helper-2</text>
+  <rect x="959" y="488" width="100" height="40" rx="6" class="helper"/>
+  <text x="1009" y="513" text-anchor="middle" class="body">helper-3</text>
 
   <text x="48" y="582" class="sec-title">ENDPOINTS NA DEMONSTRACAO</text>
   <rect x="48" y="592" width="290" height="88" rx="8" class="alg-l"/>

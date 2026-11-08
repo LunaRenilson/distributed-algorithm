@@ -4,4 +4,4 @@ INSERT INTO users (email, name) VALUES
     ('carol@example.com', 'Carol');
 
 INSERT INTO events (name, venue, total_tickets, tickets_remaining) VALUES
-    ('Show MC714', 'IC UNICAMP', 10, 10);
+    ('Show MC714', 'IC UNICAMP', 10000, 10000);

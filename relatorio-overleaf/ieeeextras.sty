@@ -1,0 +1,21 @@
+% Macros para marcadores de dados pendentes no relatório MC714
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{ieeeextras}[2026/03/26 MC714 report helpers]
+
+\RequirePackage{xcolor}
+
+\newcommand{\pendente}[1]{%
+  \begingroup
+  \setlength{\fboxsep}{2pt}%
+  \colorbox{yellow!25}{\texttt{\textbf{[PREENCHER]} #1}}%
+  \endgroup
+}
+
+\newcommand{\medir}[1]{%
+  \begingroup
+  \setlength{\fboxsep}{2pt}%
+  \colorbox{orange!20}{\texttt{\textbf{[MEDIR]} #1}}%
+  \endgroup
+}
+
+\newcommand{\repolink}[1]{\url{#1}}

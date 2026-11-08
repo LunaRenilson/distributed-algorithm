@@ -66,5 +66,5 @@ Vetor: [`images/algoritmos-fluxos.svg`](images/algoritmos-fluxos.svg)
 ## Fontes editáveis
 
 - **SVG:** `docs/images/*.svg`
-- **Mermaid:** `docs/diagramas/*.mmd` (sem acentos/speciais para compatibilidade com CLI)
+- **Mermaid:** `docs/diagramas/*.mmd` (`arquitetura-cluster`, `fluxo-demonstracao`, `algoritmos-fluxos`)
 - **PNG:** gere com `./scripts/export-diagram-png.sh` ou `npx @mermaid-js/mermaid-cli` a partir dos `.mmd`
