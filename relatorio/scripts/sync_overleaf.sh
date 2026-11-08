@@ -25,11 +25,13 @@ cp "$DST/relatorio.tex" "$DST/main.tex"
 
 python3 "$SRC/scripts/csv_to_latex.py" \
   -i "$ROOT/results/experiments.csv" \
-  -o "$DST/dados/experiments.tex" 2>/dev/null || true
+  -o "$SRC/dados/experiments.tex"
+cp "$SRC/dados/experiments.tex" "$DST/dados/"
 
 python3 "$SRC/scripts/csv_to_latex.py" --summary \
-  -i "$ROOT/results/run1.csv","$ROOT/results/run2.csv","$ROOT/results/run3.csv" \
-  -o "$DST/dados/experiments_summary.tex" 2>/dev/null || true
+  -i "$ROOT/results/run[1-3].csv" \
+  -o "$SRC/dados/experiments_summary.tex"
+cp "$SRC/dados/experiments_summary.tex" "$DST/dados/"
 
 "$ROOT/scripts/measure_heartbeat_sim.py" 2>/dev/null && cp "$SRC/dados/heartbeat.tex" "$DST/dados/" || true
 

@@ -1,0 +1,26 @@
+\begin{table}[!t]
+\centering
+\caption{Desempenho por algoritmo e concorrência (cliente HTTP multithread).}
+\label{tab:experiments}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}l r r r r r r@{}}
+\toprule
+Algoritmo & $T$ & Sucesso (\%) & Vazão & $p_{50}$ & $p_{95}$ & $p_{99}$ \\
+ & (threads) &  & (req/s) & (ms) & (ms) & (ms) \\
+\midrule
+Lamport Ordering & 1 & 100,00 & 115,8 & 8,25 & 11,21 & 14,76 \\
+Lamport Ordering & 5 & 100,00 & 114,0 & 37,54 & 107,91 & 122,11 \\
+Lamport Ordering & 10 & 100,00 & 100,5 & 104,28 & 141,94 & 164,19 \\
+Lamport Ordering & 20 & 100,00 & 119,4 & 147,46 & 164,07 & 174,01 \\
+Ricart-Agrawala Mutex & 1 & 100,00 & 79,2 & 10,94 & 20,92 & 53,99 \\
+Ricart-Agrawala Mutex & 5 & 96,00 & 9,1 & 51,67 & 1726,66 & 5006,37 \\
+Ricart-Agrawala Mutex & 10 & 95,33 & 9,0 & 107,38 & 1823,13 & 5006,50 \\
+Ricart-Agrawala Mutex & 20 & 94,00 & 33,7 & 257,50 & 3461,30 & 3501,10 \\
+Two-Phase Commit (2PC) & 1 & 100,00 & 48,9 & 19,39 & 27,61 & 46,67 \\
+Two-Phase Commit (2PC) & 5 & 100,00 & 56,8 & 85,69 & 125,79 & 131,66 \\
+Two-Phase Commit (2PC) & 10 & 100,00 & 63,7 & 147,24 & 212,82 & 230,60 \\
+Two-Phase Commit (2PC) & 20 & 100,00 & 61,3 & 295,97 & 488,37 & 563,94 \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -14,7 +14,7 @@ pdf: datos
 
 datos:
 	python3 scripts/csv_to_latex.py -i ../results/experiments.csv -o dados/experiments.tex
-	python3 scripts/csv_to_latex.py --summary -i ../results/run*.csv -o dados/experiments_summary.tex 2>/dev/null || true
+	python3 scripts/csv_to_latex.py --summary -i '../results/run[1-3].csv' -o dados/experiments_summary.tex
 
 copy: $(MAIN).pdf
 	cp $(MAIN).pdf ../relatorio_mc714_trabalho2.pdf

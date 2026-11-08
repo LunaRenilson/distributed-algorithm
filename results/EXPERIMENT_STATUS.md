@@ -1,18 +1,17 @@
-# Status da coleta (ambiente de build do relatório)
+# Status da coleta
 
-Durante a geração do relatório, o daemon Docker não estava acessível ao usuário
-(`permission denied` em `/var/run/docker.sock`). O `experiments.csv` atual
-reflete uma execução anterior com **API/banco indisponíveis** (taxa de sucesso
-0\% em Lamport/2PC) ou **estoque esgotado** (mutex).
+Os arquivos `results/run1.csv`, `run2.csv` e `run3.csv` foram gerados com
+cluster Docker ativo. A tabela de desempenho do relatório usa a
+**média** dessas três execuções (`relatorio/dados/experiments_summary.tex`).
 
-**Ação necessária antes da entrega:**
+`results/experiments.csv` reflete a execução consolidada mais recente
+(via `./scripts/run_experiments.sh` ou `./scripts/benchmark.py`).
+
+Regenerar dados antes da entrega:
 
 ```bash
-newgrp docker   # ou adicionar o usuário ao grupo docker
 docker compose up -d --build
 ./scripts/run_experiments.sh
-cd relatorio && make dados pdf copy
+cd relatorio && make datos pdf copy
+./relatorio/scripts/sync_overleaf.sh
 ```
-
-Após isso, substituir a Tabela de desempenho no PDF e remover o marcador
-`\pendente` das repetições em `dados/ambiente.tex`.

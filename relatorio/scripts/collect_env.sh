@@ -24,18 +24,18 @@ cat > "$OUT" <<EOF
 \scriptsize
 \begin{tabular}{@{}p{0.22\columnwidth}p{0.68\columnwidth}@{}}
 \toprule
-Item & Valor \\
+Item & Valor \\\\
 \midrule
-CPU & ${CPU//_/\\_} \\
-RAM & ${RAM} \\
-Sistema operacional & ${UNAME} \\
-Docker Engine & ${DOCKER_VER} \\
-Python (benchmark) & ${PY_VER} \\
-PostgreSQL (imagem) & \texttt{postgres:16} \\
-Requisições por nível de concorrência & 50 \\
-Níveis de concorrência & 1, 5, 10, 20 threads \\
-Repetições independentes & ${RUNS} \\
-Aquecimento & 10 requisições descartadas por nível (pré-ensaio manual) \\
+CPU & ${CPU//_/\\_} \\\\
+RAM & ${RAM} \\\\
+Sistema operacional & ${UNAME} \\\\
+Docker Engine & ${DOCKER_VER} \\\\
+Python (benchmark) & ${PY_VER} \\\\
+PostgreSQL (imagem) & \texttt{postgres:16} \\\\
+Requisições por nível de concorrência & 50 \\\\
+Níveis de concorrência & 1, 5, 10, 20 threads \\\\
+Repetições independentes & ${RUNS} (\texttt{run1--3.csv}) \\\\
+Aquecimento & 10 requisições descartadas por nível (pré-ensaio manual) \\\\
 \bottomrule
 \end{tabular}
 \end{table}

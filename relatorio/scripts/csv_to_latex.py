@@ -44,7 +44,9 @@ def aggregate_by_key(rows: list[dict[str, str]]) -> list[dict[str, str]]:
         groups.setdefault(key, []).append(row)
 
     out: list[dict[str, str]] = []
-    for (algo, conc), items in sorted(groups.items()):
+    for (algo, conc), items in sorted(
+        groups.items(), key=lambda kv: (kv[0][0], int(kv[0][1]))
+    ):
         agg: dict[str, str] = {
             "algorithm": algo,
             "concurrency_threads": conc,
@@ -114,10 +116,13 @@ def main() -> int:
         return 1
 
     rows = read_rows(paths)
-    if args.summary and len(paths) > 1:
+    if args.summary:
         rows = aggregate_by_key(rows)
-    elif args.summary:
-        rows = aggregate_by_key(rows)
+    else:
+        rows = sorted(
+            rows,
+            key=lambda r: (r["algorithm"], int(r["concurrency_threads"])),
+        )
 
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
     Path(args.output).write_text(emit_table(rows), encoding="utf-8")

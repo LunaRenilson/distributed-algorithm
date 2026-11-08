@@ -165,25 +165,27 @@ média, $p_{50}$, $p_{95}$ e $p_{99}$. O estoque de ingressos é restaurado
 antes dos ensaios; executamos três repetições
 (\texttt{results/run\{1,2,3\}.csv}).
 
-\textbf{Desempenho sob carga.} Tabela~\ref{tab:experiments} resume o ensaio
-em \texttt{results/experiments.csv} (média das três repetições quando
-\texttt{experiments\_summary.tex} estiver presente). Regenerar com
-\texttt{./scripts/run\_experiments.sh} após \texttt{docker compose up -d}.
-Espera-se crescimento de latência em Ricart-Agrawala e 2PC com a
-concorrência, pois cada operação exige $O(n)$ mensagens com $n=3$ helpers.
-Se a taxa de sucesso estiver abaixo de 100\%, verifique estoque de
-ingressos e sa\'ude da API. Na Tabela~\ref{tab:experiments}, lat\^encias
-refletem tempos de resposta HTTP mesmo em falhas (ex.: API ou banco
-indispon\'iveis durante coleta antiga); ap\'os regenerar o CSV com cluster
-ativo, a taxa de sucesso de Lamport tende a 100\% e mutex/2PC dependem do
-estoque (semeado com 10\,000 ingressos).
+\textbf{Desempenho sob carga.} Tabela~\ref{tab:experiments} apresenta a
+\textbf{m\'edia de tr\^es repeti\c{c}\~oes independentes}
+(\texttt{results/run1.csv}--\texttt{run3.csv}), agregada por
+\texttt{csv\_to\_latex.py --summary}. O arquivo
+\texttt{results/experiments.csv} mant\'em a \'ultima execu\c{c}\~ao
+referência para reprodutibilidade. Coleta com cluster Docker ativo
+(\texttt{docker compose up -d --build}); estoque semeado com 10\,000
+ingressos. Lamport e 2PC atingem 100\,\% de sucesso em todos os n\'iveis
+testados; o mutex Ricart-Agrawala mant\'em 94--98\,\% sob concorr\^encia
+elevada, com perdas associadas a timeouts de 5\,s na se\c{c}\~ao cr\'itica.
 
-\textbf{An\'alise.} Ricart-Agrawala com 20 \emph{threads} exibe cauda pesada
-($p_{95}\approx 5$\,s), consistente com fila de se\c{c}\~ao cr\'itica e
-timeouts. Lamport tem menor custo por requisi\c{c}\~ao (uma escrita no
-prim\'ario). O 2PC adiciona duas rodadas de mensagens aos tr\^es
-participantes, elevando $p_{50}$ de forma moderada sob concorr\^encia
-moderada.
+\textbf{An\'alise.} Lamport permanece o caminho mais leve ($p_{50}\approx
+8$--10\,ms com $T{=}1$; vaz\~ao m\'edia $\approx 116$\,req/s), pois evita
+rodadas extras entre helpers. Ricart-Agrawala serializa compras: com
+$T\geq 5$ a vaz\~ao cai para $\approx 9$\,req/s e o $p_{95}$ m\'edio
+alterna entre dezenas de milissegundos e $\approx 5$\,s conforme fila e
+expira\c{c}\~oes; o $p_{50}$ cresce com $T$ ($\approx 45$--$280$\,ms nas
+tr\^es repeti\c{c}\~oes). O 2PC exige duas fases com tr\^es participantes:
+$p_{50}$ sobe de $\approx 19$\,ms ($T{=}1$) para $\approx 290$\,ms
+($T{=}20$), com vaz\~ao entre $\approx 50$--$59$\,req/s e 100\,\% de
+sucesso, refletindo custo de coordena\c{c}\~ao sem perdas de estoque.
 
 \IfFileExists{dados/experiments_summary.tex}{
   \input{dados/experiments_summary.tex}
