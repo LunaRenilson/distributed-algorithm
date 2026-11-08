@@ -72,6 +72,56 @@
 
 ### Bloco 3: Algoritmos Distribuídos em Operação Normal (~1:30)
 
+#### 3.0. Conceito Fundamental: Qual a diferença entre Exclusão Mútua e 2PC?
+> **Para narrar antes de executar os endpoints:**  
+> *"Embora ambos envolvam consenso distribuído, seus propósitos são complementares e ortogonais:*  
+> *- **Exclusão Mútua (Ricart-Agrawala):** Controla o **tempo e o acesso**. Garante que **apenas um cliente por vez** entre na seção crítica para debitar ingressos, evitando condições de corrida e venda em excesso (*overselling*).  
+> *- **Two-Phase Commit (2PC):** Controla o **estado e a atomicidade (*all-or-nothing*)**. Garante que uma compra só seja confirmada se **todos os participantes** aprovarem na fase `PREPARE`; se um falhar, todos sofrem `ABORT` e o banco não fica inconsistente."*
+
+```
+Pipeline de Execução:
+[Cliente] ──> 1. Lamport (ordena evento)
+          ──> 2. Ricart-Agrawala (adquire lock exclusivo entre helpers)
+          ──> 3. Two-Phase Commit (votação PREPARE unânime -> COMMIT com log durável)
+          ──> 4. Liberação do Lock (processa pedidos postergados)
+```
+
+```mermaid
+flowchart TD
+    subgraph E1["Etapa 1: Ordenação Causal (Lamport)"]
+        L1["Requisição chega na API"] --> L2["Lamport tick(): gera (clock, node_id)"]
+        L2 --> L3["Propaga update() aos nós réplicas"]
+    end
+
+    subgraph E2["Etapa 2: Acesso à Seção Crítica (Ricart-Agrawala)"]
+        L3 --> M1["API assume estado WANTED"]
+        M1 --> M2["Envia REQUEST com timestamp de Lamport para helper-1, 2 e 3"]
+        M2 --> M3{"Todos responderam OK/REPLY?"}
+        M3 -- Sim --> M4["API assume estado HELD (Seção Crítica)"]
+        M3 -- Não (prioridade menor) --> M5["Aguarda na fila até liberação"]
+    end
+
+    subgraph E3["Etapa 3: Transação Atômica Distribuída (2PC)"]
+        M4 --> T1["Fase 1: Coordenador envia PREPARE para helpers"]
+        T1 --> T2{"Votação unânime (YES)?"}
+        T2 -- Sim (todos YES) --> T3["Fase 2: Coordenador decide COMMIT"]
+        T3 --> T4["Persiste estado COMMITTED em two_phase_transactions"]
+        T2 -- Não (rejeição ou timeout) --> T5["Fase 2: Coordenador decide ABORT"]
+        T5 --> T6["Reverte alterações locais"]
+    end
+
+    subgraph E4["Etapa 4: Liberação do Recurso"]
+        T4 --> R1["API assume estado RELEASED"]
+        T6 --> R1
+        R1 --> R2["Despacha REPLY para nós da fila (deferred_replies)"]
+    end
+
+    subgraph E5["Monitoramento Contínuo (Heartbeat)"]
+        H1["Detector sonda nós a cada 2s"] -.->|Detecta falha| T5
+        H1 -.->|Evita travamento| M3
+    end
+```
+
 #### 3.1. Ordenação Causal de Eventos (Relógio Lógico de Lamport)
 - **Comandos:**
   ```bash
