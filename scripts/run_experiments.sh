@@ -39,7 +39,6 @@ for run in 1 2 3; do
   python3 scripts/benchmark.py --host http://localhost:8000 --output "results/run${run}.csv" --reqs 50
 done
 python3 scripts/benchmark.py --host http://localhost:8000 --output results/experiments.csv --reqs 50
-python3 relatorio/scripts/csv_to_latex.py --summary -i results/run1.csv,results/run2.csv,results/run3.csv -o relatorio/dados/experiments_summary.tex || true
 
 echo "========================================================"
 echo "  Experimentos finalizados com sucesso!"

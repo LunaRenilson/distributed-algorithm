@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 import sys
 import time
 from pathlib import Path
@@ -55,26 +56,16 @@ async def main() -> None:
     recover_s = max(time.perf_counter() - t1, interval)
     await detector2.stop()
 
-    out = Path(__file__).resolve().parents[1] / "relatorio" / "dados" / "heartbeat.tex"
-    out.write_text(
-        f"""\\begin{{table}}[!t]
-\\centering
-\\caption{{Tempos do detector de falhas (ensaio com \\texttt{{interval}}={interval}s, \\texttt{{max\\_missed}}={max_missed}).}}
-\\label{{tab:heartbeat}}
-\\begin{{tabular}}{{@{{}}l r@{{}}}}
-\\toprule
-Métrica & Valor (s) \\\\
-\\midrule
-Tempo até \\texttt{{is\\_alive=false}} após parada simulada & {detect_s:.2f} \\\\
-Tempo até \\texttt{{is\\_alive=true}} após retorno do ping & {recover_s:.2f} \\\\
-Intervalo configurado entre pings & 2{{,}}0 \\\\
-Pings perdidos tolerados (\\texttt{{max\\_missed}}) & {max_missed} \\\\
-\\bottomrule
-\\end{{tabular}}
-\\end{{table}}
-""",
-        encoding="utf-8",
-    )
+    metrics = {
+        "interval_seconds": interval,
+        "max_missed": max_missed,
+        "detect_failure_seconds": round(detect_s, 2),
+        "detect_recovery_seconds": round(recover_s, 2),
+    }
+    out = Path(__file__).resolve().parents[1] / "results" / "heartbeat.json"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(metrics, indent=2) + "\n", encoding="utf-8")
+
     print(f"Detecção: {detect_s:.2f}s | Recuperação: {recover_s:.2f}s")
     print(f"Escrito em {out}")
 

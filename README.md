@@ -120,26 +120,10 @@ Para rodar os ensaios de desempenho com variação de concorrência (1, 5, 10, 2
 
 Os resultados serão salvos automaticamente em `results/experiments.csv`.
 
----
-
-## Relatório LaTeX (IEEE)
+Ensaio do detector de falhas (simulação local, sem Docker):
 
 ```bash
-# 1. Regenerar dados (cluster ativo + permissão Docker)
-./scripts/run_experiments.sh
-python3 scripts/measure_heartbeat_sim.py   # ou relatorio/scripts/measure_heartbeat.sh com Docker
-
-# 2. Tabelas e PDF
-cd relatorio && make all
+python3 scripts/measure_heartbeat_sim.py
 ```
 
-Saída: `relatorio/relatorio.pdf` e cópia em `relatorio_mc714_trabalho2.pdf`. Preencher na capa os links do GitLab e do vídeo antes da entrega.
-
-### Overleaf
-
-Pasta pronta para upload: [`relatorio-overleaf/`](relatorio-overleaf/) (use `main.tex` como documento principal). Para atualizar a partir de novos experimentos:
-
-```bash
-./relatorio/scripts/sync_overleaf.sh
-zip -r relatorio-overleaf.zip relatorio-overleaf -x '*.aux' -x '*.log'
-```
+Saída: `results/heartbeat.json` e métricas no terminal.
